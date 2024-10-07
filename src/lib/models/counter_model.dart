@@ -4,11 +4,15 @@ class Counter {
 
 	Counter({required this.value});
 
-	void increment() {
-		value += 1;
+	void increment(int step) {
+		value += step;
 	}
 
-	void decrement() {
-		value -= 1;
+	void decrement(int step) {
+		value -= step;
+	}
+
+	void reset() {
+		value = 0;
 	}
 }
