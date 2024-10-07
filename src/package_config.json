@@ -413,10 +413,10 @@
       "name": "com.example.flutter_cubit_app",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.17"
     }
   ],
-  "generated": "2024-10-07T01:44:21.877149Z",
+  "generated": "2024-10-07T01:50:48.821931Z",
   "generator": "pub",
   "generatorVersion": "3.5.2",
   "flutterRoot": "file:///C:/flutter",
