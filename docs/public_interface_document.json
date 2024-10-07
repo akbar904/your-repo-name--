@@ -1,12 +1,13 @@
 {
   "package_name": "com.example.flutter_cubit_app",
-  "project_description": "A Flutter application utilizing the Cubit pattern for state management, designed to demonstrate best practices in modularization and structure.",
-  "architecture_overview": "The project follows a layered architecture with separate folders for screens, cubits, models, and widgets. It utilizes the Cubit pattern for managing state across the application.",
+  "project_description": "A Flutter application utilizing the Cubit pattern for state management, designed to demonstrate best practices in modularization and structure. Now includes a dark mode toggle and customizable counter steps.",
+  "architecture_overview": "The project follows a layered architecture with separate folders for screens, cubits, models, and widgets. It utilizes the Cubit pattern for managing state across the application. A new Cubit has been added for managing dark mode state.",
   "folder_structure": {
     "lib": {
       "main.dart": {},
       "cubits": {
-        "counter_cubit.dart": {}
+        "counter_cubit.dart": {},
+        "dark_mode_cubit.dart": {}
       },
       "models": {
         "counter_model.dart": {}
@@ -22,7 +23,7 @@
   "files": [
     {
       "name": "lib/main.dart",
-      "description": "The entry point of the application which sets up the initial route and provides the Cubit.",
+      "description": "The entry point of the application which sets up the initial route and provides the Cubits.",
       "class_diagram": "@startuml\nclass Main {\n  + build()\n}\n@enduml",
       "methods": [
         {
@@ -43,23 +44,34 @@
       "dependencies": [
         "flutter_bloc",
         "lib/cubits/counter_cubit.dart",
+        "lib/cubits/dark_mode_cubit.dart",
         "lib/screens/home_screen.dart"
       ]
     },
     {
       "name": "lib/cubits/counter_cubit.dart",
-      "description": "Defines a Cubit for managing counter state.",
-      "class_diagram": "@startuml\nclass CounterCubit {\n  + increment()\n  + decrement()\n}\n@enduml",
+      "description": "Defines a Cubit for managing counter state with customizable step values.",
+      "class_diagram": "@startuml\nclass CounterCubit {\n  + increment(int step)\n  + decrement(int step)\n  + reset()\n}\n@enduml",
       "methods": [
         {
           "name": "increment",
-          "description": "Increments the counter state.",
-          "parameters": null,
+          "description": "Increments the counter state by a specified step.",
+          "parameters": [
+            "int step"
+          ],
           "return_type": "void"
         },
         {
           "name": "decrement",
-          "description": "Decrements the counter state.",
+          "description": "Decrements the counter state by a specified step.",
+          "parameters": [
+            "int step"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "reset",
+          "description": "Resets the counter state to zero.",
           "parameters": null,
           "return_type": "void"
         }
@@ -67,6 +79,22 @@
       "dependencies": [
         "flutter_bloc",
         "lib/models/counter_model.dart"
+      ]
+    },
+    {
+      "name": "lib/cubits/dark_mode_cubit.dart",
+      "description": "Defines a Cubit for managing dark mode state.",
+      "class_diagram": "@startuml\nclass DarkModeCubit {\n  + toggleDarkMode()\n}\n@enduml",
+      "methods": [
+        {
+          "name": "toggleDarkMode",
+          "description": "Toggles the dark mode state.",
+          "parameters": null,
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "flutter_bloc"
       ]
     },
     {
@@ -78,7 +106,7 @@
     },
     {
       "name": "lib/screens/home_screen.dart",
-      "description": "The main screen displaying the counter and control buttons.",
+      "description": "The main screen displaying the counter, control buttons, and dark mode toggle.",
       "class_diagram": "@startuml\nclass HomeScreen {\n  + build()\n}\n@enduml",
       "methods": [
         {
@@ -93,7 +121,8 @@
       "dependencies": [
         "flutter_bloc",
         "lib/widgets/counter_display.dart",
-        "lib/cubits/counter_cubit.dart"
+        "lib/cubits/counter_cubit.dart",
+        "lib/cubits/dark_mode_cubit.dart"
       ]
     },
     {
@@ -125,7 +154,7 @@
     {
       "name": "HomeScreen",
       "type": "StatelessWidget",
-      "description": "Main screen that contains the counter display and buttons to modify the counter.",
+      "description": "Main screen that contains the counter display, buttons to modify the counter, and a dark mode toggle.",
       "file_name": "lib/screens/home_screen.dart"
     }
   ],
@@ -133,22 +162,46 @@
     {
       "name": "CounterCubit",
       "state": "Counter",
-      "description": "Manages the state of the counter, providing methods to increment and decrement.",
+      "description": "Manages the state of the counter, providing methods to increment, decrement, and reset.",
       "methods": [
         {
           "name": "increment",
-          "description": "Increments the counter state.",
-          "parameters": null,
+          "description": "Increments the counter state by a specified step.",
+          "parameters": [
+            "int step"
+          ],
           "return_type": "void"
         },
         {
           "name": "decrement",
-          "description": "Decrements the counter state.",
+          "description": "Decrements the counter state by a specified step.",
+          "parameters": [
+            "int step"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "reset",
+          "description": "Resets the counter state to zero.",
           "parameters": null,
           "return_type": "void"
         }
       ],
       "file_name": "lib/cubits/counter_cubit.dart"
+    },
+    {
+      "name": "DarkModeCubit",
+      "state": "bool",
+      "description": "Manages the state of the dark mode, providing a method to toggle it.",
+      "methods": [
+        {
+          "name": "toggleDarkMode",
+          "description": "Toggles the dark mode state.",
+          "parameters": null,
+          "return_type": "void"
+        }
+      ],
+      "file_name": "lib/cubits/dark_mode_cubit.dart"
     }
   ],
   "models": [
@@ -166,20 +219,15 @@
       "name": "flutter_bloc",
       "version": "^8.0.0",
       "purpose": "Used for state management with Cubits."
-    },
-    {
-      "name": "provider",
-      "version": "^6.0.0",
-      "purpose": "Provides dependency injection and state management."
     }
   ],
-  "sequence_diagram": "@startuml\nactor User\nparticipant Main\nparticipant HomeScreen\nparticipant CounterCubit\nUser -> Main: Start App\nMain -> HomeScreen: Display HomeScreen\nUser -> HomeScreen: Tap Increment\nHomeScreen -> CounterCubit: increment()\nCounterCubit -> HomeScreen: Update State\n@enduml",
-  "state_management_flow": "State is managed using Cubits, where CounterCubit manages the state of the counter. The UI listens to state changes and rebuilds when notified.",
+  "sequence_diagram": "@startuml\nactor User\nparticipant Main\nparticipant HomeScreen\nparticipant CounterCubit\nparticipant DarkModeCubit\nUser -> Main: Start App\nMain -> HomeScreen: Display HomeScreen\nUser -> HomeScreen: Tap Increment\nHomeScreen -> CounterCubit: increment(step)\nCounterCubit -> HomeScreen: Update State\nUser -> HomeScreen: Tap Dark Mode Toggle\nHomeScreen -> DarkModeCubit: toggleDarkMode()\nDarkModeCubit -> HomeScreen: Update Theme\n@enduml",
+  "state_management_flow": "State is managed using Cubits, where CounterCubit manages the state of the counter and DarkModeCubit manages the dark mode state. The UI listens to state changes and rebuilds when notified.",
   "navigation_flow": "The application has a single screen, HomeScreen. Navigation is minimal as the app serves as a demonstration of state management with Cubits.",
   "pubspec_yaml": {
     "name": "flutter_cubit_app",
     "description": "A Flutter application utilizing the Cubit pattern for state management.",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "environment": {
       "sdk": ">=2.12.0 <3.0.0"
     },
@@ -187,8 +235,7 @@
       "flutter": {
         "sdk": "flutter"
       },
-      "flutter_bloc": "^8.0.0",
-      "provider": "^6.0.0"
+      "flutter_bloc": "^8.0.0"
     },
     "dev_dependencies": {
       "flutter_test": {
