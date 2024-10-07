@@ -1,21 +1,20 @@
 name: com.example.flutter_cubit_app
-description: A Flutter application utilizing the Cubit pattern for state management, designed to demonstrate best practices in modularization and structure.
+description: A Flutter application utilizing the Cubit pattern for state management, designed to demonstrate best practices in modularization and structure. Now includes a dark mode toggle and customizable counter steps.
 version: 1.0.0
+
 environment:
-  sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=3.3.0 <4.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.0
-  provider: ^6.0.0
   equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  bloc_test: ^9.0.3
+  bloc_test: ^9.0.0
   mocktail: ^0.2.0
 
 flutter:
